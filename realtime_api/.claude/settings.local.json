@@ -1,0 +1,11 @@
+{
+  "permissions": {
+    "allow": [
+      "Bash(cat:*)",
+      "Bash(type \"c:\\Users\\haeormjk\\OneDrive - NCSOFT\\바탕 화면\\250326_BackUp\\디렉터 업무\\강의자료 (자기개발)\\Cursor\\realtime_api\\initail.md\")",
+      "Bash(git add:*)"
+    ],
+    "deny": [],
+    "ask": []
+  }
+}

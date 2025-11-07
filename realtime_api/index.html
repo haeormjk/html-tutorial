@@ -1,0 +1,166 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+    <!-- 기본 메타 정보 -->
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="description" content="재경이의 날씨 전광판 - Powered by Cursor AI. Apple 스타일의 깔끔한 디자인.">
+
+    <!-- 페이지 제목 -->
+    <title>재경이의 날씨 전광판</title>
+
+    <!-- 스타일시트 연결 -->
+    <link rel="stylesheet" href="style.css">
+</head>
+
+<body>
+    <!-- 다크모드 토글 버튼 - 우측 상단 고정 -->
+    <button class="theme-toggle" id="theme-toggle" aria-label="다크모드 토글" title="다크모드/라이트모드 전환">
+        <div class="theme-toggle-handle">
+            <!-- 라이트모드: 태양 아이콘, 다크모드: 달 아이콘 -->
+            <span id="theme-icon">☀️</span>
+        </div>
+    </button>
+
+    <!-- 메인 컨테이너 -->
+    <div class="container">
+        <!-- 헤더: 타이틀 및 서브타이틀 -->
+        <header>
+            <h1>재경이의 날씨 전광판</h1>
+            <p class="subtitle">Powered by Cursor AI</p>
+        </header>
+
+        <!-- 메인 콘텐츠 영역 -->
+        <main>
+            <!-- 위치 정보 섹션 -->
+            <section class="location-section" aria-label="위치 정보">
+                <!-- 현재 위치 표시 및 지역 선택 드롭다운 -->
+                <div class="location-selector">
+                    <span class="location-icon" aria-hidden="true">📍</span>
+                    <select id="location-select" class="location-dropdown" aria-label="지역 선택">
+                        <option value="auto">현재 위치 (자동)</option>
+                        <optgroup label="특별시/광역시">
+                            <option value="37.5665,126.9780">서울</option>
+                            <option value="35.1796,129.0756">부산</option>
+                            <option value="35.8714,128.6014">대구</option>
+                            <option value="37.4563,126.7052">인천</option>
+                            <option value="35.1595,126.8526">광주</option>
+                            <option value="36.3504,127.3845">대전</option>
+                            <option value="35.5384,129.3114">울산</option>
+                            <option value="36.4801,127.2890">세종</option>
+                        </optgroup>
+                        <optgroup label="경기도">
+                            <option value="37.4449,127.1388">성남</option>
+                            <option value="37.2636,127.0286">수원</option>
+                            <option value="37.6584,126.8320">고양</option>
+                            <option value="37.2411,127.1776">용인</option>
+                            <option value="37.5036,126.7660">부천</option>
+                            <option value="37.3219,126.8309">안산</option>
+                            <option value="37.3943,126.9568">안양</option>
+                            <option value="37.6361,127.2147">남양주</option>
+                            <option value="37.2009,127.0771">화성</option>
+                            <option value="37.0122,127.0922">평택</option>
+                            <option value="37.7388,127.0339">의정부</option>
+                            <option value="37.3799,126.8030">시흥</option>
+                            <option value="37.6151,126.7163">김포</option>
+                            <option value="37.4783,126.8659">광명</option>
+                            <option value="37.3614,126.9357">군포</option>
+                            <option value="37.5392,127.2145">하남</option>
+                            <option value="37.1528,127.0770">오산</option>
+                            <option value="37.2724,127.4357">이천</option>
+                            <option value="37.8228,127.0466">양주</option>
+                            <option value="37.7601,126.7800">파주</option>
+                            <option value="37.0079,127.2797">안성</option>
+                            <option value="37.5943,127.1297">구리</option>
+                        </optgroup>
+                        <optgroup label="강원도">
+                            <option value="37.8813,127.7298">춘천</option>
+                            <option value="37.3422,127.9202">원주</option>
+                            <option value="37.7519,128.8761">강릉</option>
+                        </optgroup>
+                        <optgroup label="충청도">
+                            <option value="36.6424,127.4890">청주</option>
+                            <option value="36.8151,127.1139">천안</option>
+                        </optgroup>
+                        <optgroup label="전라도">
+                            <option value="35.8242,127.1479">전주</option>
+                            <option value="34.7604,127.6622">여수</option>
+                            <option value="34.8118,126.3922">목포</option>
+                        </optgroup>
+                        <optgroup label="경상도">
+                            <option value="36.0190,129.3435">포항</option>
+                            <option value="35.2272,128.6811">창원</option>
+                            <option value="35.2286,128.6811">진주</option>
+                            <option value="35.2285,129.0097">김해</option>
+                        </optgroup>
+                        <optgroup label="제주도">
+                            <option value="33.4996,126.5312">제주</option>
+                            <option value="33.2541,126.5601">서귀포</option>
+                        </optgroup>
+                    </select>
+                </div>
+
+                <!-- 새로고침 버튼 -->
+                <button
+                    id="refresh-btn"
+                    class="refresh-btn"
+                    title="데이터 새로고침"
+                    aria-label="데이터 새로고침">
+                    ↻
+                </button>
+            </section>
+
+            <!-- 3일 날씨 예보 카드 그리드 -->
+            <div class="weather-grid">
+                <!-- 오늘 날씨 카드 -->
+                <section class="weather-card card" aria-label="오늘 날씨">
+                    <h2 class="card-title">오늘</h2>
+                    <div id="weather-today" class="weather-day-content">
+                        <!-- JavaScript에서 동적으로 날씨 정보 삽입 -->
+                        <div class="loading">로딩 중...</div>
+                    </div>
+                </section>
+
+                <!-- 내일 날씨 카드 -->
+                <section class="weather-card card" aria-label="내일 날씨">
+                    <h2 class="card-title">내일</h2>
+                    <div id="weather-tomorrow" class="weather-day-content">
+                        <!-- JavaScript에서 동적으로 날씨 정보 삽입 -->
+                        <div class="loading">로딩 중...</div>
+                    </div>
+                </section>
+
+                <!-- 모레 날씨 카드 -->
+                <section class="weather-card card" aria-label="모레 날씨">
+                    <h2 class="card-title">모레</h2>
+                    <div id="weather-dayafter" class="weather-day-content">
+                        <!-- JavaScript에서 동적으로 날씨 정보 삽입 -->
+                        <div class="loading">로딩 중...</div>
+                    </div>
+                </section>
+            </div>
+
+            <!-- 마지막 업데이트 시간 표시 -->
+            <div class="update-info" aria-live="polite">
+                <span id="last-update">마지막 업데이트: -</span>
+            </div>
+        </main>
+
+        <!-- 푸터: 데이터 출처 및 부가 정보 -->
+        <footer>
+            <p class="footer-text">
+                데이터 제공: OpenWeatherMap
+            </p>
+            <p class="auto-update-info">
+                ⏱️ 10분마다 자동 업데이트
+            </p>
+        </footer>
+    </div>
+
+    <!-- JavaScript 파일 연결 -->
+    <!-- config.js: API 키 설정 -->
+    <script src="config.js"></script>
+    <!-- script.js: 메인 로직 -->
+    <script src="script.js"></script>
+</body>
+</html>
