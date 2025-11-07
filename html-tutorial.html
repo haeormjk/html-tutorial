@@ -1,0 +1,562 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>HTML 기초 배우기</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        :root {
+            --bg-color: #f5f5f7;
+            --container-bg: #ffffff;
+            --text-primary: #1d1d1f;
+            --text-secondary: #6e6e73;
+            --border-color: rgba(0, 0, 0, 0.04);
+            --border-color-light: #e5e5e7;
+            --code-bg: #f5f5f7;
+            --demo-bg: #fbfbfd;
+            --label-bg: #1d1d1f;
+            --label-blue: #0071e3;
+            --practice-bg: #fff9e6;
+            --practice-border: #f5d486;
+            --shadow: 0 4px 24px rgba(0, 0, 0, 0.06);
+        }
+
+        [data-theme="dark"] {
+            --bg-color: #000000;
+            --container-bg: #1d1d1f;
+            --text-primary: #f5f5f7;
+            --text-secondary: #a1a1a6;
+            --border-color: rgba(255, 255, 255, 0.1);
+            --border-color-light: #424245;
+            --code-bg: #2d2d2f;
+            --demo-bg: #2d2d2f;
+            --label-bg: #f5f5f7;
+            --label-blue: #0a84ff;
+            --practice-bg: #2d2510;
+            --practice-border: #4d4520;
+            --shadow: 0 4px 24px rgba(0, 0, 0, 0.4);
+        }
+
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, 'SF Pro Display', 'Segoe UI', 'Malgun Gothic', 'Apple SD Gothic Neo', sans-serif;
+            line-height: 1.6;
+            color: var(--text-primary);
+            background: var(--bg-color);
+            min-height: 100vh;
+            padding: 40px 20px;
+            font-size: 16px;
+            -webkit-font-smoothing: antialiased;
+            -moz-osx-font-smoothing: grayscale;
+            transition: background 0.3s ease, color 0.3s ease;
+        }
+
+        .container {
+            max-width: 840px;
+            margin: 0 auto;
+            background: var(--container-bg);
+            border-radius: 18px;
+            box-shadow: var(--shadow);
+            padding: 48px;
+            border: 1px solid var(--border-color);
+            position: relative;
+            transition: all 0.3s ease;
+        }
+
+        .theme-toggle {
+            position: sticky;
+            top: 20px;
+            float: right;
+            width: 56px;
+            height: 28px;
+            background: var(--code-bg);
+            border-radius: 14px;
+            cursor: pointer;
+            border: 1px solid var(--border-color-light);
+            z-index: 1000;
+            transition: all 0.3s ease;
+            margin-bottom: 20px;
+        }
+
+        .theme-toggle:hover {
+            opacity: 0.8;
+        }
+
+        .theme-toggle-slider {
+            position: absolute;
+            top: 3px;
+            left: 3px;
+            width: 20px;
+            height: 20px;
+            background: #0071e3;
+            border-radius: 50%;
+            transition: transform 0.3s ease;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 10px;
+        }
+
+        [data-theme="dark"] .theme-toggle-slider {
+            transform: translateX(28px);
+        }
+
+        h1 {
+            font-size: 2.5rem;
+            color: var(--text-primary);
+            margin-bottom: 12px;
+            text-align: center;
+            font-weight: 600;
+            letter-spacing: -0.02em;
+            line-height: 1.1;
+            transition: color 0.3s ease;
+            clear: both;
+        }
+
+        h2 {
+            font-size: 1.5rem;
+            color: var(--text-primary);
+            margin: 48px 0 20px 0;
+            padding-bottom: 0;
+            border-bottom: none;
+            font-weight: 600;
+            letter-spacing: -0.015em;
+            line-height: 1.2;
+            transition: color 0.3s ease;
+        }
+
+        h3 {
+            font-size: 1.1875rem;
+            color: var(--text-primary);
+            margin: 32px 0 16px 0;
+            font-weight: 600;
+            letter-spacing: -0.01em;
+            transition: color 0.3s ease;
+        }
+
+        p {
+            margin-bottom: 16px;
+            color: var(--text-secondary);
+            font-size: 1rem;
+            line-height: 1.6;
+            transition: color 0.3s ease;
+        }
+
+        strong {
+            color: var(--text-primary);
+            font-weight: 600;
+        }
+
+        em {
+            color: var(--text-secondary);
+            font-style: normal;
+        }
+
+        hr {
+            border: none;
+            height: 1px;
+            background: var(--border-color-light);
+            margin: 48px 0;
+            transition: background 0.3s ease;
+        }
+
+        ul, ol {
+            margin: 20px 0 20px 32px;
+        }
+
+        li {
+            margin: 10px 0;
+            color: var(--text-secondary);
+            padding-left: 8px;
+            font-size: 1rem;
+            line-height: 1.6;
+            transition: color 0.3s ease;
+        }
+
+        ul li::marker {
+            color: var(--text-primary);
+        }
+
+        ol li::marker {
+            color: var(--text-primary);
+            font-weight: 500;
+        }
+
+        a {
+            color: var(--label-blue);
+            text-decoration: none;
+            font-weight: 400;
+            transition: all 0.25s cubic-bezier(0.4, 0, 0.2, 1);
+        }
+
+        a:hover {
+            opacity: 0.8;
+        }
+
+        pre {
+            background: var(--code-bg);
+            border: 1px solid var(--border-color-light);
+            padding: 20px;
+            border-radius: 12px;
+            overflow-x: auto;
+            margin: 20px 0;
+            font-family: 'SF Mono', 'Menlo', 'Consolas', 'Monaco', monospace;
+            font-size: 0.875rem;
+            color: var(--text-primary);
+            line-height: 1.6;
+            transition: all 0.3s ease;
+        }
+
+        .demo-result {
+            background: var(--demo-bg);
+            padding: 20px;
+            border-radius: 12px;
+            margin: 16px 0;
+            border: 1px solid var(--border-color-light);
+            transition: all 0.3s ease;
+        }
+
+        .code-label {
+            display: inline-block;
+            background: var(--label-bg);
+            color: var(--container-bg);
+            padding: 5px 12px;
+            border-radius: 6px;
+            font-size: 0.8125rem;
+            margin-bottom: 10px;
+            font-weight: 500;
+            transition: all 0.3s ease;
+        }
+
+        .result-label {
+            display: inline-block;
+            background: var(--label-blue);
+            color: white;
+            padding: 5px 12px;
+            border-radius: 6px;
+            font-size: 0.8125rem;
+            margin-bottom: 10px;
+            font-weight: 500;
+            transition: all 0.3s ease;
+        }
+
+        .highlight-box {
+            background: var(--code-bg);
+            padding: 24px;
+            border-radius: 12px;
+            border: 1px solid var(--border-color-light);
+            margin: 24px 0;
+            transition: all 0.3s ease;
+        }
+
+        .practice-area {
+            background: var(--practice-bg);
+            border: 1px solid var(--practice-border);
+            padding: 28px;
+            border-radius: 12px;
+            margin: 28px 0;
+            transition: all 0.3s ease;
+        }
+
+        .success-message {
+            background: var(--label-bg);
+            color: var(--container-bg);
+            padding: 28px;
+            border-radius: 12px;
+            text-align: center;
+            margin-top: 48px;
+            font-size: 1rem;
+            transition: all 0.3s ease;
+        }
+
+        .success-message p {
+            color: var(--container-bg);
+            margin: 6px 0;
+        }
+
+        @media (max-width: 768px) {
+            body {
+                padding: 24px 16px;
+            }
+
+            .container {
+                padding: 32px 24px;
+                border-radius: 16px;
+            }
+
+            h1 {
+                font-size: 2rem;
+            }
+
+            h2 {
+                font-size: 1.3125rem;
+                margin: 40px 0 16px 0;
+            }
+
+            h3 {
+                font-size: 1.0625rem;
+                margin: 28px 0 12px 0;
+            }
+
+            p, li {
+                font-size: 0.9375rem;
+            }
+
+            pre {
+                font-size: 0.8125rem;
+                padding: 16px;
+            }
+
+            ul, ol {
+                margin: 16px 0 16px 24px;
+            }
+
+            .code-label, .result-label {
+                font-size: 0.75rem;
+            }
+
+            .success-message {
+                font-size: 0.9375rem;
+                padding: 24px;
+            }
+
+            hr {
+                margin: 36px 0;
+            }
+        }
+
+        @media (max-width: 480px) {
+            .container {
+                padding: 28px 20px;
+            }
+
+            h1 {
+                font-size: 1.75rem;
+            }
+
+            h2 {
+                font-size: 1.1875rem;
+            }
+
+            h3 {
+                font-size: 1rem;
+            }
+
+            p, li {
+                font-size: 0.875rem;
+            }
+
+            pre {
+                font-size: 0.75rem;
+            }
+
+            .theme-toggle {
+                width: 48px;
+                height: 24px;
+            }
+
+            .theme-toggle-slider {
+                width: 18px;
+                height: 18px;
+                font-size: 9px;
+            }
+
+            [data-theme="dark"] .theme-toggle-slider {
+                transform: translateX(24px);
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+    <div class="theme-toggle" onclick="toggleTheme()">
+        <div class="theme-toggle-slider">
+            <span id="theme-icon">☀️</span>
+        </div>
+    </div>
+    <h1>🎓 HTML 기초 배우기</h1>
+    <p>HTML은 웹페이지를 만드는 언어입니다. 어렵지 않아요!</p>
+
+    <hr>
+
+    <h2>1️⃣ 제목 만들기 (Heading)</h2>
+    <p><strong>코드:</strong> &lt;h1&gt;가장 큰 제목&lt;/h1&gt;</p>
+    <p><strong>결과:</strong></p>
+    <h1>가장 큰 제목 (h1)</h1>
+    <h2>두 번째 큰 제목 (h2)</h2>
+    <h3>세 번째 큰 제목 (h3)</h3>
+    <p>숫자가 커질수록 제목이 작아집니다. h1부터 h6까지 있어요.</p>
+
+    <hr>
+
+    <h2>2️⃣ 문단 만들기 (Paragraph)</h2>
+    <p><strong>코드:</strong> &lt;p&gt;여기에 내용을 씁니다&lt;/p&gt;</p>
+    <p><strong>결과:</strong></p>
+    <p>이것은 문단입니다. 일반적인 텍스트를 쓸 때 사용해요.</p>
+    <p>p 태그를 여러 개 쓰면 문단이 여러 개 생깁니다.</p>
+
+    <hr>
+
+    <h2>3️⃣ 줄바꿈 (Line Break)</h2>
+    <p><strong>코드:</strong> &lt;br&gt;</p>
+    <p><strong>결과:</strong></p>
+    <p>첫 번째 줄<br>두 번째 줄<br>세 번째 줄</p>
+    <p>br 태그는 닫는 태그가 없어요!</p>
+
+    <hr>
+
+    <h2>4️⃣ 목록 만들기 (List)</h2>
+
+    <h3>📝 순서 없는 목록 (ul = unordered list)</h3>
+    <p><strong>코드:</strong></p>
+    <pre>
+&lt;ul&gt;
+    &lt;li&gt;사과&lt;/li&gt;
+    &lt;li&gt;바나나&lt;/li&gt;
+&lt;/ul&gt;
+    </pre>
+    <p><strong>결과:</strong></p>
+    <ul>
+        <li>사과</li>
+        <li>바나나</li>
+        <li>딸기</li>
+    </ul>
+
+    <h3>🔢 순서 있는 목록 (ol = ordered list)</h3>
+    <p><strong>코드:</strong></p>
+    <pre>
+&lt;ol&gt;
+    &lt;li&gt;첫 번째&lt;/li&gt;
+    &lt;li&gt;두 번째&lt;/li&gt;
+&lt;/ol&gt;
+    </pre>
+    <p><strong>결과:</strong></p>
+    <ol>
+        <li>첫 번째</li>
+        <li>두 번째</li>
+        <li>세 번째</li>
+    </ol>
+
+    <hr>
+
+    <h2>5️⃣ 링크 만들기 (Link)</h2>
+    <p><strong>코드:</strong> &lt;a href="https://www.google.com"&gt;구글로 가기&lt;/a&gt;</p>
+    <p><strong>결과:</strong></p>
+    <p><a href="https://www.google.com">구글로 가기</a></p>
+    <p>href 안에 주소를 넣으면 클릭했을 때 그 페이지로 이동합니다.</p>
+
+    <hr>
+
+    <h2>6️⃣ 이미지 넣기 (Image)</h2>
+    <p><strong>코드:</strong> &lt;img src="이미지주소" alt="설명"&gt;</p>
+    <p>src에 이미지 주소를 넣으면 그림이 나타납니다.</p>
+    <p>alt는 이미지가 안 보일 때 대신 보여줄 설명입니다.</p>
+
+    <hr>
+
+    <h2>7️⃣ 텍스트 꾸미기</h2>
+    <p><strong>코드:</strong> &lt;strong&gt;굵게&lt;/strong&gt;</p>
+    <p><strong>결과:</strong> <strong>굵은 글씨</strong></p>
+
+    <p><strong>코드:</strong> &lt;em&gt;기울임&lt;/em&gt;</p>
+    <p><strong>결과:</strong> <em>기울어진 글씨</em></p>
+
+    <p><strong>코드:</strong> &lt;u&gt;밑줄&lt;/u&gt;</p>
+    <p><strong>결과:</strong> <u>밑줄 있는 글씨</u></p>
+
+    <hr>
+
+    <h2>8️⃣ 수평선 긋기</h2>
+    <p><strong>코드:</strong> &lt;hr&gt;</p>
+    <p><strong>결과:</strong> (위아래 보이는 선들이 hr입니다)</p>
+
+    <hr>
+
+    <h2>🎯 HTML 기본 구조</h2>
+    <pre>
+&lt;!DOCTYPE html&gt;           ← 이것은 HTML5 문서라고 알려줍니다
+&lt;html lang="ko"&gt;          ← HTML 시작! 한국어로 작성됨
+&lt;head&gt;                    ← 페이지 정보를 담는 곳
+    &lt;title&gt;제목&lt;/title&gt;   ← 브라우저 탭에 보이는 제목
+&lt;/head&gt;
+&lt;body&gt;                    ← 실제로 화면에 보이는 내용
+    여기에 내용을 씁니다
+&lt;/body&gt;
+&lt;/html&gt;                   ← HTML 끝!
+    </pre>
+
+    <hr>
+
+    <h2>💡 중요한 규칙들</h2>
+    <ol>
+        <li><strong>태그는 열면 닫아야 합니다</strong><br>
+        예: &lt;p&gt;내용&lt;/p&gt; - 여는 태그와 닫는 태그가 쌍입니다</li>
+
+        <li><strong>일부 태그는 닫지 않습니다</strong><br>
+        예: &lt;br&gt;, &lt;hr&gt;, &lt;img&gt;</li>
+
+        <li><strong>대소문자 구분 안 함</strong><br>
+        &lt;P&gt;와 &lt;p&gt;는 같지만, 소문자를 쓰는 게 좋습니다</li>
+
+        <li><strong>들여쓰기를 하면 보기 좋습니다</strong><br>
+        코드를 정리하면 나중에 수정하기 쉬워요</li>
+    </ol>
+
+    <hr>
+
+    <h2>✏️ 직접 해보세요!</h2>
+    <p>이 파일을 메모장이나 에디터로 열어서 내용을 바꿔보세요.</p>
+    <ol>
+        <li>자신의 이름으로 제목을 바꿔보기</li>
+        <li>좋아하는 음식 목록 만들어보기</li>
+        <li>좋아하는 웹사이트 링크 추가해보기</li>
+    </ol>
+
+    <hr>
+
+    <h2>📚 연습 공간</h2>
+    <p>아래에서 마음껏 연습해보세요! (이 부분을 지우고 새로 작성해보세요)</p>
+
+    <!-- 여기서부터 자유롭게 연습하세요! -->
+
+
+
+
+    <!-- 연습 공간 끝 -->
+
+    <hr>
+
+    <div class="success-message">
+        <p><strong>축하합니다! 이제 HTML 기초를 배웠어요! 🎉</strong></p>
+        <p><em>계속 연습하면 멋진 웹페이지를 만들 수 있습니다!</em></p>
+    </div>
+
+    </div>
+
+    <script>
+        // 페이지 로드 시 저장된 테마 적용
+        const savedTheme = localStorage.getItem('theme') || 'light';
+        if (savedTheme === 'dark') {
+            document.documentElement.setAttribute('data-theme', 'dark');
+            document.getElementById('theme-icon').textContent = '🌙';
+        }
+
+        function toggleTheme() {
+            const currentTheme = document.documentElement.getAttribute('data-theme');
+            const newTheme = currentTheme === 'dark' ? 'light' : 'dark';
+
+            document.documentElement.setAttribute('data-theme', newTheme);
+            localStorage.setItem('theme', newTheme);
+
+            // 아이콘 변경
+            const icon = document.getElementById('theme-icon');
+            icon.textContent = newTheme === 'dark' ? '🌙' : '☀️';
+        }
+    </script>
+</body>
+</html>

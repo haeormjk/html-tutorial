@@ -1,0 +1,444 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>나의 첫 웹페이지</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        :root {
+            --bg-color: #f5f5f7;
+            --card-bg: #ffffff;
+            --text-primary: #1d1d1f;
+            --text-secondary: #6e6e73;
+            --header-bg-start: #1d1d1f;
+            --header-bg-end: #2d2d2f;
+            --border-color: rgba(0, 0, 0, 0.04);
+            --border-color-light: #e5e5e7;
+            --item-bg: #fbfbfd;
+            --item-hover-bg: #f5f5f7;
+            --footer-bg: #fbfbfd;
+            --shadow: 0 4px 24px rgba(0, 0, 0, 0.06);
+        }
+
+        [data-theme="dark"] {
+            --bg-color: #000000;
+            --card-bg: #1d1d1f;
+            --text-primary: #f5f5f7;
+            --text-secondary: #a1a1a6;
+            --header-bg-start: #2d2d2f;
+            --header-bg-end: #3d3d3f;
+            --border-color: rgba(255, 255, 255, 0.1);
+            --border-color-light: #424245;
+            --item-bg: #2d2d2f;
+            --item-hover-bg: #3d3d3f;
+            --footer-bg: #2d2d2f;
+            --shadow: 0 4px 24px rgba(0, 0, 0, 0.4);
+        }
+
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, 'SF Pro Display', 'Segoe UI', 'Malgun Gothic', 'Apple SD Gothic Neo', sans-serif;
+            background: var(--bg-color);
+            min-height: 100vh;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            padding: 20px;
+            font-size: 16px;
+            -webkit-font-smoothing: antialiased;
+            -moz-osx-font-smoothing: grayscale;
+            transition: background 0.3s ease;
+        }
+
+        .card {
+            background: var(--card-bg);
+            max-width: 680px;
+            width: 100%;
+            border-radius: 18px;
+            box-shadow: var(--shadow);
+            overflow: visible;
+            animation: fadeIn 0.6s ease;
+            border: 1px solid var(--border-color);
+            position: relative;
+            transition: all 0.3s ease;
+        }
+
+        .theme-toggle {
+            position: absolute;
+            top: 20px;
+            right: 20px;
+            width: 56px;
+            height: 28px;
+            background: var(--item-bg);
+            border-radius: 14px;
+            cursor: pointer;
+            border: 1px solid var(--border-color-light);
+            z-index: 10;
+            transition: all 0.3s ease;
+        }
+
+        .theme-toggle:hover {
+            background: var(--item-hover-bg);
+        }
+
+        .theme-toggle-slider {
+            position: absolute;
+            top: 3px;
+            left: 3px;
+            width: 20px;
+            height: 20px;
+            background: #0071e3;
+            border-radius: 50%;
+            transition: transform 0.3s ease;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 10px;
+        }
+
+        [data-theme="dark"] .theme-toggle-slider {
+            transform: translateX(28px);
+        }
+
+        @keyframes fadeIn {
+            from {
+                opacity: 0;
+                transform: translateY(20px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        .header {
+            background: linear-gradient(135deg, var(--header-bg-start) 0%, var(--header-bg-end) 100%);
+            color: white;
+            padding: 48px 32px;
+            text-align: center;
+            transition: all 0.3s ease;
+        }
+
+        .header h1 {
+            font-size: 2.25rem;
+            font-weight: 600;
+            margin-bottom: 12px;
+            letter-spacing: -0.015em;
+            line-height: 1.1;
+        }
+
+        .header h2 {
+            font-size: 1.0625rem;
+            font-weight: 400;
+            opacity: 0.9;
+            line-height: 1.5;
+            color: rgba(255, 255, 255, 0.92);
+        }
+
+        .content {
+            padding: 32px;
+        }
+
+        .intro {
+            font-size: 1rem;
+            color: var(--text-secondary);
+            text-align: center;
+            margin-bottom: 40px;
+            padding: 20px;
+            background: var(--item-bg);
+            border-radius: 12px;
+            line-height: 1.6;
+            transition: all 0.3s ease;
+        }
+
+        .section {
+            margin-bottom: 32px;
+        }
+
+        h3 {
+            font-size: 1.3125rem;
+            color: var(--text-primary);
+            margin-bottom: 20px;
+            padding-bottom: 0;
+            border-bottom: none;
+            font-weight: 600;
+            display: block;
+            letter-spacing: -0.015em;
+            line-height: 1.2;
+            transition: color 0.3s ease;
+        }
+
+        h3::before {
+            content: none;
+        }
+
+        ul, ol {
+            list-style: none;
+            padding: 0;
+        }
+
+        ul li, ol li {
+            background: var(--item-bg);
+            padding: 14px 18px;
+            margin-bottom: 6px;
+            border-radius: 8px;
+            color: var(--text-primary);
+            font-size: 0.9375rem;
+            border: 1px solid var(--border-color-light);
+            transition: all 0.25s cubic-bezier(0.4, 0, 0.2, 1);
+            line-height: 1.6;
+        }
+
+        ul li:hover, ol li:hover {
+            background: var(--item-hover-bg);
+            border-color: var(--border-color-light);
+            transform: translateX(2px);
+        }
+
+        ol {
+            counter-reset: custom-counter;
+        }
+
+        ol li {
+            counter-increment: custom-counter;
+            position: relative;
+            padding-left: 44px;
+        }
+
+        ol li::before {
+            content: counter(custom-counter);
+            position: absolute;
+            left: 14px;
+            top: 50%;
+            transform: translateY(-50%);
+            background: var(--text-primary);
+            color: var(--card-bg);
+            width: 22px;
+            height: 22px;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-weight: 500;
+            font-size: 0.75rem;
+            transition: all 0.3s ease;
+        }
+
+        .links {
+            display: flex;
+            gap: 12px;
+            flex-wrap: wrap;
+        }
+
+        .links a {
+            display: inline-block;
+            padding: 11px 22px;
+            background: #0071e3;
+            color: white;
+            text-decoration: none;
+            border-radius: 980px;
+            font-weight: 400;
+            font-size: 0.9375rem;
+            transition: all 0.25s cubic-bezier(0.4, 0, 0.2, 1);
+            box-shadow: 0 2px 8px rgba(0, 113, 227, 0.15);
+        }
+
+        .links a:hover {
+            background: #0077ed;
+            transform: translateY(-1px);
+            box-shadow: 0 4px 12px rgba(0, 113, 227, 0.25);
+        }
+
+        hr {
+            border: none;
+            height: 1px;
+            background: var(--border-color-light);
+            margin: 40px 0;
+            transition: background 0.3s ease;
+        }
+
+        .footer {
+            background: var(--footer-bg);
+            padding: 28px 32px;
+            text-align: center;
+            border-top: 1px solid var(--border-color-light);
+            transition: all 0.3s ease;
+        }
+
+        .footer p {
+            color: var(--text-secondary);
+            font-size: 0.9375rem;
+            margin: 6px 0;
+            line-height: 1.6;
+            transition: color 0.3s ease;
+        }
+
+        .footer strong {
+            color: var(--text-primary);
+            font-size: 1rem;
+            font-weight: 600;
+            transition: color 0.3s ease;
+        }
+
+        .footer em {
+            color: var(--text-secondary);
+            font-style: normal;
+        }
+
+        @media (max-width: 768px) {
+            body {
+                padding: 16px;
+            }
+
+            .card {
+                border-radius: 16px;
+            }
+
+            .header {
+                padding: 40px 24px;
+            }
+
+            .header h1 {
+                font-size: 1.875rem;
+            }
+
+            .header h2 {
+                font-size: 1rem;
+            }
+
+            .content {
+                padding: 28px 24px;
+            }
+
+            h3 {
+                font-size: 1.1875rem;
+            }
+
+            ul li, ol li {
+                font-size: 0.875rem;
+                padding: 12px 16px;
+            }
+
+            ol li {
+                padding-left: 40px;
+            }
+
+            .links a {
+                font-size: 0.875rem;
+                padding: 10px 20px;
+            }
+
+            .footer {
+                padding: 24px 20px;
+            }
+
+            .footer p {
+                font-size: 0.875rem;
+            }
+        }
+
+        @media (max-width: 480px) {
+            .header {
+                padding: 32px 20px;
+            }
+
+            .header h1 {
+                font-size: 1.625rem;
+            }
+
+            .header h2 {
+                font-size: 0.9375rem;
+            }
+
+            .content {
+                padding: 24px 20px;
+            }
+
+            h3 {
+                font-size: 1.125rem;
+            }
+
+            .theme-toggle {
+                top: 12px;
+                right: 12px;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="card">
+        <div class="theme-toggle" onclick="toggleTheme()">
+            <div class="theme-toggle-slider">
+                <span id="theme-icon">☀️</span>
+            </div>
+        </div>
+        <div class="header">
+            <h1>안녕하세요!</h1>
+            <h2>나의 첫 웹페이지에 오신 것을 환영합니다</h2>
+        </div>
+
+        <div class="content">
+            <p class="intro">이것은 HTML로 만든 간단한 웹페이지입니다.</p>
+
+            <div class="section">
+                <h3>자기소개</h3>
+                <ul>
+                    <li>이름: 홍길동</li>
+                    <li>나이: 25세</li>
+                    <li>취미: 독서, 여행</li>
+                </ul>
+            </div>
+
+            <div class="section">
+                <h3>좋아하는 것들</h3>
+                <ol>
+                    <li>음악 감상</li>
+                    <li>영화 보기</li>
+                    <li>코딩 배우기</li>
+                </ol>
+            </div>
+
+            <div class="section">
+                <h3>유용한 링크</h3>
+                <div class="links">
+                    <a href="https://www.google.com" target="_blank">구글</a>
+                    <a href="https://www.naver.com" target="_blank">네이버</a>
+                </div>
+            </div>
+        </div>
+
+        <hr>
+
+        <div class="footer">
+            <p><strong>감사합니다!</strong></p>
+            <p><em>즐거운 하루 되세요.</em></p>
+        </div>
+    </div>
+
+    <script>
+        // 페이지 로드 시 저장된 테마 적용
+        const savedTheme = localStorage.getItem('theme') || 'light';
+        if (savedTheme === 'dark') {
+            document.documentElement.setAttribute('data-theme', 'dark');
+            document.getElementById('theme-icon').textContent = '🌙';
+        }
+
+        function toggleTheme() {
+            const currentTheme = document.documentElement.getAttribute('data-theme');
+            const newTheme = currentTheme === 'dark' ? 'light' : 'dark';
+
+            document.documentElement.setAttribute('data-theme', newTheme);
+            localStorage.setItem('theme', newTheme);
+
+            // 아이콘 변경
+            const icon = document.getElementById('theme-icon');
+            icon.textContent = newTheme === 'dark' ? '🌙' : '☀️';
+        }
+    </script>
+</body>
+</html>
